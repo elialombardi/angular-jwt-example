@@ -2,6 +2,9 @@ var express = require('express');
 var faker = require('faker');
 var cors = require('cors');
 var bodyParser = require('body-parser');
+// var jwt = require('jsonwebtoken');
+
+var jwtSecret = 'fhsajdlkfhl$213%sdj';
 
 var user = {
 	username: 'elia',
@@ -20,7 +23,13 @@ app.get('/random-user', function(req, res) {
 });
 
 app.post('/login', authenticate, function(req, res) {
-	res.send(user); 
+	res.send({
+		// token: jwt.sign({
+		// 	username: username
+		// }, jwtSecret),
+		token: 'this is the static token',
+		user: user
+	}); 
 });
 
 app.listen(3000, function() {

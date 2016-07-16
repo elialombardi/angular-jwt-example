@@ -14,10 +14,11 @@
 		<button type="submit">Login</button>
 	</form>
 	<p ng-if="vm.errorMessage">{{ vm.errorMessage }}</p>
-	<p ng-if="vm.token">{{ vm.token }}</p>
+	<div ng-if="vm.token">{{ vm.token }}</p>
 </div>
 
 <div>
+	<button ng-click="vm.logout()">Logout</button>
 	<button ng-click="vm.getRandomUser()">Get User</button>
 	<pre ng-bind="vm.randomUser | json"></pre>
 </div>

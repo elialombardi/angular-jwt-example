@@ -18,6 +18,7 @@
 </div>
 
 <div>
+	<h2>Welcome {{ vm.user.username }}</h2>
 	<button ng-click="vm.logout()">Logout</button>
 	<button ng-click="vm.getRandomUser()">Get User</button>
 	<pre ng-bind="vm.randomUser | json"></pre>

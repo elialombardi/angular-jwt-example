@@ -13,6 +13,11 @@
 		vm.login = login;
 		vm.logout = logout;
 
+		// Initialization
+		UserFactory.getUser().then(function success(res) {
+			vm.user = res.data;
+		})
+
 		function login(username, password) {
 			UserFactory.login(username, password).then(function success(res) {
 				delete vm.errorMessage;
@@ -28,7 +33,7 @@
 		function getRandomUser() {
 			RandomUserFactory.getUser().then(function success(res) {
 				vm.randomUser = res.data;
-			});
+			}, errorHandler);
 		}
 
 		function logout() {
@@ -47,11 +52,12 @@
 		}
 	});
 
-	 app.factory('UserFactory', function UserFactory($http, API_URL, AuthTokenFactory) {
+	 app.factory('UserFactory', function UserFactory($http, API_URL, AuthTokenFactory, $q) {
 	 	'use strict';
 	 	return {
 	 		login: login,
 	 		logout: logout,
+	 		getUser: getUser,
 	 	};
 
 	 	function login(username, password) {
@@ -68,6 +74,14 @@
 
 	 	function logout() {
 	 		AuthTokenFactory.setToken();
+	 	}
+
+	 	function getUser() {
+	 		if(AuthTokenFactory.getToken()) {
+	 			return $http.get(API_URL+'/me');
+	 		} else {
+	 			return $q.reject({data: 'client has no auth token'});
+	 		}
 	 	}
 	 });
 
